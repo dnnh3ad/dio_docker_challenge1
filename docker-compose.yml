@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  apache:
+    image: httpd:latest
+    container_name: dio-poject1-app
+    ports:
+     - '80:80'
+    volumes:
+     - ./website:/usr/local/apache2/htdocs
+    networks:
+     - net-apache
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: Senha123
+    volumes:
+     - ./db:/var/lib/mysql
+    ports:
+     - '3306:3306'
+    networks:
+     - net-apache
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+     - '8080:8080'
+    networks:
+     - net-apache
+
+networks:
+  net-apache:
+    driver: bridge
